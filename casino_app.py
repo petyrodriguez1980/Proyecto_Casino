@@ -1,10 +1,9 @@
 import streamlit as st
 from datetime import datetime
-from streamlit_autorefresh import st_autorefresh
+import time
 import uuid
 
 st.set_page_config(layout="wide")
-st_autorefresh(interval=1000, key="refresh_clock")
 
 # 🕒 Reloj centrado arriba
 col_r1, col_r2, col_r3 = st.columns([4, 2, 4])
