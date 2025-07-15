@@ -1,14 +1,28 @@
 import streamlit as st
-from datetime import datetime
-import time
+import streamlit.components.v1 as components
 import uuid
 
 st.set_page_config(layout="wide")
 
-# 🕒 Reloj centrado arriba
-col_r1, col_r2, col_r3 = st.columns([4, 2, 4])
-with col_r2:
-    st.markdown("### 🕒 " + datetime.now().strftime("%H:%M:%S"))
+def mostrar_reloj_js():
+    reloj_html = """
+    <div style="text-align: center;">
+        <h3>🕒 <span id="reloj">--:--:--</span></h3>
+    </div>
+    <script>
+    const reloj = document.getElementById("reloj");
+    function actualizarHora() {
+        const ahora = new Date();
+        const horas = String(ahora.getHours()).padStart(2, '0');
+        const minutos = String(ahora.getMinutes()).padStart(2, '0');
+        const segundos = String(ahora.getSeconds()).padStart(2, '0');
+        reloj.textContent = `${horas}:${minutos}:${segundos}`;
+    }
+    setInterval(actualizarHora, 1000);
+    actualizarHora();
+    </script>
+    """
+    components.html(reloj_html, height=80)
 
 # Inicialización
 if "empleados" not in st.session_state:
@@ -122,8 +136,7 @@ if st.button("📦 ASIGNAR empleados a sus mesas"):
 with col_descanso:
     st.markdown("## 🛋️ Sala de descanso")
 with col_reloj:
-    st.markdown("### 🕒")
-    st.markdown(f"**{datetime.now().strftime('%H:%M:%S')}**")
+    mostrar_reloj_js()
 
 if "confirmar_eliminacion" not in st.session_state:
     st.session_state.confirmar_eliminacion = {}
